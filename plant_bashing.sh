@@ -1,10 +1,14 @@
-echo "Welcome to PlantBashing! Lets grow something great!"
-echo
-read -p "Whats your name,gardener?" Vincent
+#!/bin/bash
 
-echo
-echo "Nice to meet you, $Vincent. Let's get planting!"
-sleep 3
+play=true
+first_time=true
+while $play; do
+	if $first_time; then
+read -p "Whats your name,gardener?" username
+first_time=false
+fi
+echo "Nice to meet you, $username! Let's get planting!"
+sleep 1
 echo "Goodbye for now, $Vincent!"
 
 echo ""
@@ -33,6 +37,11 @@ if [[ "$plant_choice" == "yes" ]]; then
 			sleep 1
 			echo "Day 6 -  The seed grew into a small sapling overnight!"
 			sleep 1
+
+			#Ask if they want to name their plant
+			
+
+
 	# Now we begin daily sapling growth
 	age=6
 	height=0
@@ -96,5 +105,6 @@ elif [[ "$plant_choice" == "no" ]]; then
 	fi
 else
 	echo "Invalid input. Please restart the game."
-	exit 1
 fi
+done
+
