@@ -39,7 +39,19 @@ if [[ "$plant_choice" == "yes" ]]; then
 			sleep 1
 
 			#Ask if they want to name their plant
-			
+			if [[ "$first_time" == true ]]; then
+				read -p "What would you like to name your plant? " plant_name
+            else
+                    plant_name="Morpheus"
+                fi
+                first_time=false
+			else
+				# Ask if they want to change the plant name when playing again
+				read -p "Do you want to change your plant's name? (yes/no): " name_choice
+                if [[ "$name_choice" == "yes" ]]; then
+                    read -p "What would you like to name your plant? " plant_name
+                fi
+            fi
 
 
 	# Now we begin daily sapling growth
@@ -105,6 +117,14 @@ elif [[ "$plant_choice" == "no" ]]; then
 	fi
 else
 	echo "Invalid input. Please restart the game."
+fi
+	# Play again logic
+read -p "Would you like to play again? (yes/no): " again
+if [[ "$again" == "yes" ]]; then
+    play=true
+else
+    echo "Thanks for playing, $username! See you next time!"
+    play=false
 fi
 done
 
