@@ -1,11 +1,13 @@
 #!/bin/bash
-
-play=true
+default_names=("Morpheus" "Analiea" "Izzy")
+name_index=0
+# If we should keep looping the game
+play_again=true
+#Used to decide if its the user first time of playing
 first_time=true
-while $play; do
+while $playing; do
 	if $first_time; then
 read -p "Whats your name,gardener?" username
-first_time=false
 fi
 echo "Nice to meet you, $username! Let's get planting!"
 sleep 1
@@ -50,7 +52,13 @@ if [[ "$plant_choice" == "yes" ]]; then
 				read -p "Do you want to change your plant's name? (yes/no): " name_choice
                 if [[ "$name_choice" == "yes" ]]; then
                     read -p "What would you like to name your plant? " plant_name
+                else
+                	plant_name=${default_names[$name_index]}
+                	((name_index++))
+                	if [[ "$name_index" -ge ${#default_name[@]} ]]; then
+                		name_index=0
                 fi
+                echo "Your plant has been named: $plant_name"
             fi
 
 
@@ -60,7 +68,7 @@ if [[ "$plant_choice" == "yes" ]]; then
 	leaves=0
 
 	while true; do
-		read -p "Would you like to keep watching your sapling grow? (stay/leave): " watch_chocie
+		read -p "Would you like to keep watching your sapling grow? (stay/leave): " watch_choice
 
 		if [[ "$watch_choice" == "stay" ]]; then
 			((age++))
@@ -75,19 +83,17 @@ if [[ "$plant_choice" == "yes" ]]; then
 
 			if [[ "$age" -eq 21 ]]; then
 				echo""
-				echo "Your plant has completed its full life cycle!"
+				echo "$plant_name has completed its full life cycle!"
 				echo "Total age: $age days"
 				echo "Final Height: ${height}cm"
 				echo "Final leaf Count: $leaves"
 				sleep 2
-				echo "Thank you for nurturing your plant, $username. See you again in the garden!"
-				exit 0
+				echo "Thank you for nurturing $plant_name, $username. See you again in the garden!"
 			fi
 
 		elif [[ "$watch_choice" == "leave" ]]; then
 			echo "Your sapling is now lost to time... but it was beautiful while it lasted."
 			echo "Thank you for taking care of it, $username!"
-			exit 0
 		else
 			echo "Please enter 'stay' or 'leave'."
 		fi
@@ -119,12 +125,13 @@ else
 	echo "Invalid input. Please restart the game."
 fi
 	# Play again logic
-read -p "Would you like to play again? (yes/no): " again
-if [[ "$again" == "yes" ]]; then
-    play=true
+read -p "Would you like to play again? (yes/no): " play_again
+if [[ "$play_again" == "yes" ]]; then
+    play_again=true
+    first_time=false
 else
+    play_again=false
     echo "Thanks for playing, $username! See you next time!"
-    play=false
 fi
 done
 
