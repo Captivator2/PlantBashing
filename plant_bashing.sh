@@ -1,6 +1,12 @@
 #!/bin/bash
 default_names=("Morpheus" "Analiea" "Izzy")
 name_index=0
+weather_types=("Rainy" "Sunny" "Cloudy" "Overcast" "Windstorm" "Rainy" "Foggy")
+get_weather() {
+	local count=${#weather_types[@]}
+	local index=$((RANDOM % count))
+	echo "${weather_types[$index]}"
+}
 # If we should keep looping the game
 play_again=true
 #Used to decide if its the user first time of playing
@@ -75,10 +81,14 @@ if [[ "$plant_choice" == "yes" ]]; then
 			((height+=2))
 			((leaves+=2))
 
+			weather=$(get_weather)
+
 			echo ""
 			echo "Day $age"
-			echo "Height: ${height}cm"
-			echo "Leaves: $leaves"
+			echo "Weather today: $weather"
+			echo "$plant_name grew 2cm and 2 new leaves!"
+			echo "Height: ${plant_height}cm"
+			echo "Leaves: ${plant_leaves}"
 			sleep 1
 
 			if [[ "$age" -eq 21 ]]; then
